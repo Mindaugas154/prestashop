@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2021-04-15 00:02:54
+/* Smarty version 3.1.34-dev-7, created on 2021-04-16 00:01:50
   from 'module:psmboviewstemplateshookre' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_6077587e095db6_64712409',
+  'unifunc' => 'content_6078a9be3e3480_52804682',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6077587e095db6_64712409 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6078a9be3e3480_52804682 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!-- begin C:\laragon\www\prestashop/modules/ps_mbo/views/templates/hook/recommended-modules.tpl -->
 <?php echo '<script'; ?>
 >

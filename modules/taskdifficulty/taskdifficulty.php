@@ -59,7 +59,7 @@ class Taskdifficulty extends Module
      */
     public function install()
     {
-        //sukuriama db lentele ir configuration variable su nustatytu "false" value
+        //sukuriama db lentele ir nustatomas hook
         Db::getInstance()->execute('CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'taskdifficulty` (
             `id_taskdifficulty` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `first_name` char NOT NULL,
@@ -68,60 +68,35 @@ class Taskdifficulty extends Module
             PRIMARY KEY  (`id_taskdifficulty`)
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;');
 
-        Configuration::updateValue('TASKDIFFICULTY_LIVE_MODE', false);
+        $this->registerHook('actionProductAdd');
+        $this->registerHook('actionProductSave');
 
+        Configuration::updateValue('TASKDIFFICULTY_LIVE_MODE', false);
         return parent::install() &&
             $this->installTab() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader');
     }
-    public function viewAccess($disable = false)
-    {
-        return true;
-    }
+
     public function installTab()
     {
-        $languages = Language::getLanguages(false);
-    $parentTab = new Tab();
-    $parentTab->active = 1;
-    $parentTab->name = array();
-    $parentTab->class_name = "AdminInspiration";
-    foreach ($languages as $language) {
-        $parentTab->name[$language['id_lang']] = 'Inspiration';
-    }
-    $parentTab->id_parent = 0;
-    $parentTab->module = '';
-    $parentTab->add();
 
+        //meginimas sukurti nauja parent tab
 
+//        $parentTab = new Tab();
+//        $parentTab->active = 1;
+//        $parentTab->name = array();
+//        $parentTab->class_name = "userTabController";
+//        foreach (Language::getLanguages(true) as $language) {
+//            $parentTab->name[$language['id_lang']] = "User info";
+//        }
+//        //$parentTab->id_parent = 0;
+//        $parentTab->module = '';
+//        $parentTab->add();
+//
+//        $parentTabID = Tab::getIdFromClassName('AdminInspiration');
+//        $parentTab = new Tab($parentTabID);
 
-    $parentTabID = Tab::getIdFromClassName('AdminInspiration');
-    $parentTab = new Tab($parentTabID);
-
-    $tab = new Tab();
-    $tab->active = 1;
-    $tab->class_name = "AdminWallBackground";
-    $tab->name = array();
-    foreach ($languages as $language) {
-        $tab->name[$language['id_lang']] = $this->l('Wall Background');
-    }
-    $tab->id_parent = $parentTab->id;
-    $tab->module = $this->name;
-    $tab->add();
-
-    $parentTabID = Tab::getIdFromClassName('AdminInspiration');
-    $parentTab = new Tab($parentTabID);
-
-    $tab = new Tab();
-    $tab->active = 1;
-    $tab->class_name = "AdminFrames";
-    $tab->name = array();
-    foreach ($languages as $language) {
-        $tab->name[$language['id_lang']] = $this->l('Frames');
-    }
-    $tab->id_parent = $parentTab->id;
-    $tab->module = $this->name;
-    $tab->add();
 
         $tab = new Tab();
         $tab->active = 1;
@@ -129,11 +104,11 @@ class Taskdifficulty extends Module
         $tab->class_name = "userListController";
         $tab->name = array();
         foreach (Language::getLanguages(true) as $lang) {
-            $tab->name[$lang['id_lang']] = "Cotizaciones";
+            $tab->name[$lang['id_lang']] = $this->l('User List');
         }
         $tab->icon = 'aspect_ratio';
-//        $tab->id_parent = 2;
-//        $tab->position = 6;
+        $tab->id_parent = 2;
+        $tab->position = 6;
         $tab->module = $this->name;
         return $tab->add();
     }
@@ -168,6 +143,18 @@ class Taskdifficulty extends Module
     }
 
     /**
+     * meginimas testuoti gaunamus duomenis naudojant hook.
+     */
+    public function HookActionProductSave($params){
+        $test=$params->oject;
+        return $test;
+    }
+    public function HookActionProductUpdate($params){
+        $test=$params->oject;
+        return $test;
+    }
+
+    /**
      * Create the form that will be displayed in the configuration of your module.
      */
     protected function renderForm()
@@ -195,12 +182,9 @@ class Taskdifficulty extends Module
         return $helper->generateForm(array($this->getdifficultyForm(),$this->getConfigForm()));
     }
 
-
-
     /**
      * Create the structure of your form.
      */
-
     protected function getdifficultyForm()
     {
         return array(
@@ -240,6 +224,8 @@ class Taskdifficulty extends Module
         );
     }
 
+
+    //pavizdys
     protected function getConfigForm()
     {
         return array(

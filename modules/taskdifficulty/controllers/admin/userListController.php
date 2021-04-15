@@ -1,5 +1,7 @@
 <?php
 
+namespace MyModule\Controller;
+
 use PrestaShop\PrestaShop\Adapter\Entity\ModuleAdminController;
 
 class userListController extends ModuleAdminController
@@ -15,12 +17,11 @@ class userListController extends ModuleAdminController
 //        parent::init();
 //    }
 //
-//    public function initContent()
-//    {
-//        parent::initContent();
-//        /*template_dir is setted at module main php $this->template_dir = '../../../../modules/'.$this->name.'/views/templates/admin/';*/
-//        $this->setTemplate($this->module->template_dir . 'admin.tpl');
-//    }
+    public function initContent()
+    {
+        parent::initContent();
+        $this->setTemplate($this->module->template_dir . 'configure.tpl');
+    }
 
     public function getContent()
     {
@@ -35,10 +36,14 @@ class userListController extends ModuleAdminController
         return $output.$this->difficultytList();
     }
 
-    public function viewAccess($disable = false)
-    {
-        return true;
-    }
+//    public function viewAccess($disable = false)
+//    {
+//        return true;
+//    }
+
+    /**
+     * Generuojama lentele atvaizduoti modules sukurtos db table duomenis
+     */
     private function difficultytList()
     {
         $this->fields_list = array(
